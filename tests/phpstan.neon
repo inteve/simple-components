@@ -1,0 +1,8 @@
+parameters:
+	level: max
+
+	paths:
+		- ../src
+
+	ignoreErrors:
+		- '#Method Nette\\Application\\UI\\ITemplate::render\(\) invoked with 2 parameters, 0 required\.#'
