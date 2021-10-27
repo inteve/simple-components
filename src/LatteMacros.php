@@ -15,7 +15,7 @@
 		public static function install(Compiler $compiler)
 		{
 			$me = new self($compiler);
-			$me->addMacro('component', '$this->global->inteveComponents->createAndRender(%node.word, %node.array, isset($this->global->uiControl) ? $this->global->uiControl : NULL)');
+			$me->addMacro('component', '$this->global->inteve_simpleComponents->createAndRender(%node.word, %node.array, isset($this->global->uiControl) ? $this->global->uiControl : NULL)');
 			return $me;
 		}
 
@@ -25,7 +25,7 @@
 		 */
 		public static function installToLatte(Latte\Engine $latte, Components $components)
 		{
-			$latte->addProvider('inteveComponents', $components);
+			$latte->addProvider('inteve_simpleComponents', $components);
 			self::install($latte->getCompiler());
 		}
 	}
