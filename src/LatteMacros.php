@@ -15,7 +15,7 @@
 		public static function install(Compiler $compiler)
 		{
 			$me = new self($compiler);
-			$me->addMacro('component', '$this->global->inteveComponents->createAndRender(%node.word, %node.array, $this->global->uiControl)');
+			$me->addMacro('component', '$this->global->inteveComponents->createAndRender(%node.word, %node.array, isset($this->global->uiControl) ? $this->global->uiControl : NULL)');
 			return $me;
 		}
 
