@@ -13,7 +13,7 @@
 
 		/**
 		 * @param  array<string, mixed> $args
-		 * @return Template|NULL
+		 * @return ITemplate|NULL
 		 */
 		function createTemplate(array $args);
 	}

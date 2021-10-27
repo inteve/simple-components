@@ -3,7 +3,7 @@
 	namespace Inteve\SimpleComponents;
 
 
-	class Template
+	class Template implements ITemplate
 	{
 		/** @var string */
 		private $file;
@@ -23,18 +23,12 @@
 		}
 
 
-		/**
-		 * @return string
-		 */
 		public function getFile()
 		{
 			return $this->file;
 		}
 
 
-		/**
-		 * @return array<string, mixed>
-		 */
 		public function getParameters()
 		{
 			return $this->parameters;
