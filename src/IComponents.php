@@ -3,17 +3,12 @@
 	namespace Inteve\SimpleComponents;
 
 
-	interface IComponentFactory
+	interface IComponents
 	{
 		/**
-		 * @return string
-		 */
-		function getName();
-
-
-		/**
+		 * @param  string $componentName
 		 * @param  array<string, mixed> $args
 		 * @return ITemplate|NULL
 		 */
-		function createTemplate(array $args);
+		function createTemplate($componentName, array $args = []);
 	}

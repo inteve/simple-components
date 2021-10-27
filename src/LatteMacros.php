@@ -3,29 +3,42 @@
 	namespace Inteve\SimpleComponents;
 
 	use Latte;
-	use Latte\Compiler;
-	use Latte\Macros\MacroSet;
 
 
-	class LatteMacros extends MacroSet
+	class LatteMacros extends Latte\Macros\MacroSet
 	{
 		/**
-		 * @return self
+		 * @return void
 		 */
-		public static function install(Compiler $compiler)
+		public static function install(Latte\Compiler $compiler)
 		{
 			$me = new self($compiler);
-			$me->addMacro('component', '$this->global->inteve_simpleComponents->createAndRender(%node.word, %node.array, isset($this->global->uiControl) ? $this->global->uiControl : NULL)');
-			return $me;
+			$me->addMacro('component', [$me, 'macroComponent']);
 		}
 
 
 		/**
 		 * @return void
 		 */
-		public static function installToLatte(Latte\Engine $latte, Components $components)
+		public static function installToLatte(Latte\Engine $latte, IComponents $components)
 		{
 			$latte->addProvider('inteve_simpleComponents', $components);
 			self::install($latte->getCompiler());
+		}
+
+
+		/**
+		 * {component "name" [,] [params]}
+		 * @return string
+		 */
+		public function macroComponent(Latte\MacroNode $node, Latte\PhpWriter $writer)
+		{
+			$node->validate(TRUE, [], FALSE);
+			$node->replaced = FALSE;
+
+			return $writer->write(
+				'\Inteve\SimpleComponents\Runtime\Renderer::tryRender($this, %raw, %node.word, %node.array);',
+				Latte\PhpHelpers::dump(implode($node->context))
+			);
 		}
 	}

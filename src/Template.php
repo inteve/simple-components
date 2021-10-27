@@ -16,7 +16,7 @@
 		 * @param string $file
 		 * @param array<string, mixed> $parameters
 		 */
-		public function __construct($file, array $parameters)
+		public function __construct($file, array $parameters = [])
 		{
 			$this->file = $file;
 			$this->parameters = $parameters;
