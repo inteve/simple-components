@@ -33,11 +33,19 @@
 		 */
 		public function macroComponent(Latte\MacroNode $node, Latte\PhpWriter $writer)
 		{
-			$node->validate(TRUE, [], FALSE);
+			// $node->validate(TRUE, [], FALSE);
+			if ($node->args === '') {
+				throw new InvalidStateException('Missing arguments in {component} macro.');
+			}
+
+			if ($node->modifiers !== '') {
+				throw new InvalidStateException('Filters are not allowed in {component} macro.');
+			}
+
 			$node->replaced = FALSE;
 
 			return $writer->write(
-				'\Inteve\SimpleComponents\Runtime\Renderer::tryRender($this, %raw, %node.word, %node.array);',
+				'\Inteve\SimpleComponents\Runtime\Renderer::tryRender($this->global->inteve_simpleComponents, function ($template) { $this->createTemplate($template->getFile(), $template->getParameters(), \'include\')->renderToContentType(%raw); }, %node.word, %node.array);',
 				Latte\PhpHelpers::dump(implode($node->context))
 			);
 		}

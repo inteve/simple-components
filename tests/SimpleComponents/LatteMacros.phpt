@@ -46,7 +46,7 @@ test('With modifiers', function () {
 
 	Assert::exception(function () use ($latte) {
 		$latte->renderToString(__DIR__ . '/templates/page-WithModifiers.latte');
-	}, Latte\CompileException::class, 'Filters are not allowed in {component} in %a%');
+	}, Latte\CompileException::class, 'Thrown exception \'Filters are not allowed in {component} macro.\' in %a%');
 });
 
 
@@ -57,7 +57,7 @@ test('No arguments', function () {
 
 	Assert::exception(function () use ($latte) {
 		$latte->renderToString(__DIR__ . '/templates/page-NoArguments.latte');
-	}, Latte\CompileException::class, 'Missing arguments in {component} in %a%');
+	}, Latte\CompileException::class, 'Thrown exception \'Missing arguments in {component} macro.\' in %a%');
 });
 
 
