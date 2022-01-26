@@ -46,10 +46,32 @@ class MyComponents implements SimpleComponents\IComponents
 
 ### 2. register `{component}` macro
 
+**In plain PHP:**
+
 ```php
 $latte = new Latte\Engine;
 $components = new MyComponents;
 \Inteve\SimpleComponents\LatteMacros::installToLatte($latte, $components);
+```
+
+
+**In Nette presenter:**
+
+```php
+abstract class BasePresenter extends \Nette\Application\UI\Presenter
+{
+	/** @var \Inteve\SimpleComponents\IComponents @inject */
+	public $components;
+
+
+	protected function createTemplate()
+	{
+		$template = parent::createTemplate();
+		assert($template instanceof \Nette\Bridges\ApplicationLatte\Template);
+		\Inteve\SimpleComponents\LatteMacros::installToLatte($template->getLatte(), $this->components);
+		return $template;
+	}
+}
 ```
 
 
