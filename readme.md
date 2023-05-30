@@ -1,7 +1,9 @@
-
 # Inteve\SimpleComponents
 
 [![Build Status](https://github.com/inteve/simple-components/workflows/Build/badge.svg)](https://github.com/inteve/simple-components/actions)
+[![Downloads this Month](https://img.shields.io/packagist/dm/inteve/simple-components.svg)](https://packagist.org/packages/inteve/simple-components)
+[![Latest Stable Version](https://poser.pugx.org/inteve/simple-components/v/stable)](https://github.com/inteve/simple-components/releases)
+[![License](https://img.shields.io/badge/license-New%20BSD-blue.svg)](https://github.com/inteve/simple-components/blob/master/license.md)
 
 Simple independent components for Latte templates.
 
