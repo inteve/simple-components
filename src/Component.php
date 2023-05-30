@@ -3,7 +3,7 @@
 	namespace Inteve\SimpleComponents;
 
 
-	interface ITemplate
+	interface Component
 	{
 		/**
 		 * @return string

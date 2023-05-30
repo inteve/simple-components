@@ -29,15 +29,15 @@ Inteve\SimpleComponents requires PHP 5.6.0 or later.
 use Inteve\SimpleComponents;
 
 
-class MyComponents implements SimpleComponents\IComponents
+class MyComponentFactory implements SimpleComponents\ComponentFactory
 {
-	public function createTemplate($componentName, array $args = [])
+	public function create($componentName, array $args = [])
 	{
 		if ($componentName === 'menu') {
-			return new SimpleComponents\Template(__DIR__ . '/components/Menu.latte');
+			return new SimpleComponents\GenericComponent(__DIR__ . '/components/Menu.latte');
 
 		} elseif ($componentName === 'breadcrumbs') {
-			return new SimpleComponents\Template(__DIR__ . '/components/Breadcrumbs.latte', $args);
+			return new SimpleComponents\GenericComponent(__DIR__ . '/components/Breadcrumbs.latte', $args);
 		}
 
 		return NULL;
@@ -52,8 +52,8 @@ class MyComponents implements SimpleComponents\IComponents
 
 ```php
 $latte = new Latte\Engine;
-$components = new MyComponents;
-\Inteve\SimpleComponents\LatteMacros::installToLatte($latte, $components);
+$componentFactory = new MyComponentFactory;
+\Inteve\SimpleComponents\LatteMacros::installToLatte($latte, $componentFactory);
 ```
 
 
@@ -62,15 +62,15 @@ $components = new MyComponents;
 ```php
 abstract class BasePresenter extends \Nette\Application\UI\Presenter
 {
-	/** @var \Inteve\SimpleComponents\IComponents @inject */
-	public $components;
+	/** @var \Inteve\SimpleComponents\ComponentFactory @inject */
+	public $componentFactory;
 
 
 	protected function createTemplate()
 	{
 		$template = parent::createTemplate();
 		assert($template instanceof \Nette\Bridges\ApplicationLatte\Template);
-		\Inteve\SimpleComponents\LatteMacros::installToLatte($template->getLatte(), $this->components);
+		\Inteve\SimpleComponents\LatteMacros::installToLatte($template->getLatte(), $this->componentFactory);
 		return $template;
 	}
 }
@@ -93,7 +93,7 @@ abstract class BasePresenter extends \Nette\Application\UI\Presenter
 
 ## Prepared implementations
 
-### `DirectoryComponents`
+### `DirectoryFactory`
 
 Loads template files from specified directory.
 
@@ -105,7 +105,7 @@ Loads template files from specified directory.
 ```
 
 ```php
-$components = new SimpleComponents\DirectoryComponents('/path/to/app/components');
+$componentFactory = new SimpleComponents\DirectoryFactory('/path/to/app/components');
 ```
 
 ```latte
@@ -114,14 +114,14 @@ $components = new SimpleComponents\DirectoryComponents('/path/to/app/components'
 ```
 
 
-### `MultiComponents`
+### `MultiFactory`
 
-Packs multiple `IComponents` implementations to one class.
+Packs multiple `ComponentFactory` implementations to one class.
 
 ```php
-$components = new SimpleComponents\MultiComponents([
-	new MyComponents,
-	new SimpleComponents\DirectoryComponents('/path/to/app/components')
+$componentFactory = new SimpleComponents\MultiFactory([
+	new MyComponentFactory,
+	new SimpleComponents\DirectoryFactory('/path/to/app/components')
 ]);
 ```
 
@@ -135,7 +135,7 @@ $components = new SimpleComponents\MultiComponents([
 ## Typed templates
 
 ```php
-class BreadcrumbsTemplate implements SimpleComponents\ITemplate
+class Breadcrumbs implements SimpleComponents\Component
 {
 	/** @var BreadcrumbItem[] */
 	private $items;
@@ -165,12 +165,12 @@ class BreadcrumbsTemplate implements SimpleComponents\ITemplate
 }
 
 
-class MyComponents implements SimpleComponents\IComponents
+class MyComponentFactory implements SimpleComponents\ComponentFactory
 {
-	public function createTemplate($componentName, array $args = [])
+	public function create($componentName, array $args = [])
 	{
 		if ($componentName === 'breadcrumbs') {
-			return new BreadcrumbsTemplate($args['items']);
+			return new Breadcrumbs($args['items']);
 		}
 
 		return NULL;

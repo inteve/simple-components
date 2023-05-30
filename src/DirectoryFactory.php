@@ -3,7 +3,7 @@
 	namespace Inteve\SimpleComponents;
 
 
-	class DirectoryComponents implements IComponents
+	class DirectoryFactory implements ComponentFactory
 	{
 		/** @var string */
 		private $directory;
@@ -18,12 +18,12 @@
 		}
 
 
-		public function createTemplate($componentName, array $args = [])
+		public function create($componentName, array $args = [])
 		{
 			$path = $this->directory . '/' . $componentName . '.latte';
 
 			if (is_file($path)) {
-				return new Template($path, $args);
+				return new GenericComponent($path, $args);
 			}
 
 			return NULL;

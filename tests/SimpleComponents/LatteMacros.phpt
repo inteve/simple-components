@@ -6,12 +6,12 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-class MyComponents implements SimpleComponents\IComponents
+class MyComponents implements SimpleComponents\ComponentFactory
 {
-	public function createTemplate($componentName, array $args = [])
+	public function create($componentName, array $args = [])
 	{
 		if ($componentName === 'my-component') {
-			return new SimpleComponents\Template(__DIR__ . '/templates/MyComponent.latte', $args);
+			return new SimpleComponents\GenericComponent(__DIR__ . '/templates/MyComponent.latte', $args);
 		}
 
 		return NULL;
@@ -20,18 +20,18 @@ class MyComponents implements SimpleComponents\IComponents
 
 
 test('{component}', function () {
-	$components = new MyComponents;
+	$componentFactory = new MyComponents;
 	$latte = new Latte\Engine;
-	\Inteve\SimpleComponents\LatteMacros::installToLatte($latte, $components);
+	\Inteve\SimpleComponents\LatteMacros::installToLatte($latte, $componentFactory);
 
 	Assert::same("Hello, John!\nHello, Wick!\n", $latte->renderToString(__DIR__ . '/templates/page-Homepage.latte'));
 });
 
 
 test('Missing component', function () {
-	$components = new MyComponents;
+	$componentFactory = new MyComponents;
 	$latte = new Latte\Engine;
-	\Inteve\SimpleComponents\LatteMacros::installToLatte($latte, $components);
+	\Inteve\SimpleComponents\LatteMacros::installToLatte($latte, $componentFactory);
 
 	Assert::exception(function () use ($latte) {
 		$latte->renderToString(__DIR__ . '/templates/page-MissingComponent.latte');
@@ -40,9 +40,9 @@ test('Missing component', function () {
 
 
 test('With modifiers', function () {
-	$components = new MyComponents;
+	$componentFactory = new MyComponents;
 	$latte = new Latte\Engine;
-	\Inteve\SimpleComponents\LatteMacros::installToLatte($latte, $components);
+	\Inteve\SimpleComponents\LatteMacros::installToLatte($latte, $componentFactory);
 
 	Assert::exception(function () use ($latte) {
 		$latte->renderToString(__DIR__ . '/templates/page-WithModifiers.latte');
@@ -51,9 +51,9 @@ test('With modifiers', function () {
 
 
 test('No arguments', function () {
-	$components = new MyComponents;
+	$componentFactory = new MyComponents;
 	$latte = new Latte\Engine;
-	\Inteve\SimpleComponents\LatteMacros::installToLatte($latte, $components);
+	\Inteve\SimpleComponents\LatteMacros::installToLatte($latte, $componentFactory);
 
 	Assert::exception(function () use ($latte) {
 		$latte->renderToString(__DIR__ . '/templates/page-NoArguments.latte');

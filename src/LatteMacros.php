@@ -20,7 +20,7 @@
 		/**
 		 * @return void
 		 */
-		public static function installToLatte(Latte\Engine $latte, IComponents $components)
+		public static function installToLatte(Latte\Engine $latte, ComponentFactory $components)
 		{
 			$latte->addProvider('inteve_simpleComponents', $components);
 			self::install($latte->getCompiler());
@@ -45,7 +45,7 @@
 			$node->replaced = FALSE;
 
 			return $writer->write(
-				'\Inteve\SimpleComponents\Runtime\Renderer::tryRender($this->global->inteve_simpleComponents, function ($template) { $this->createTemplate($template->getFile(), $template->getParameters(), \'include\')->renderToContentType(%raw); }, %node.word, %node.array);',
+				'\Inteve\SimpleComponents\Runtime\Renderer::tryRender($this->global->inteve_simpleComponents, function ($component) { $this->createTemplate($component->getFile(), $component->getParameters(), \'include\')->renderToContentType(%raw); }, %node.word, %node.array);',
 				Latte\PhpHelpers::dump(implode($node->context))
 			);
 		}

@@ -20,19 +20,19 @@
 		 * @return void
 		 */
 		public static function tryRender(
-			SimpleComponents\IComponents $components,
+			SimpleComponents\ComponentFactory $componentFactory,
 			callable $templateRenderer,
 			$componentName,
 			array $args = []
 		)
 		{
-			$template = $components->createTemplate($componentName, $args);
+			$component = $componentFactory->create($componentName, $args);
 
-			if ($template === NULL) {
+			if ($component === NULL) {
 				throw new \Inteve\SimpleComponents\InvalidStateException("Component '$componentName' not found.");
 
 			} else {
-				$templateRenderer($template);
+				$templateRenderer($component);
 			}
 		}
 	}

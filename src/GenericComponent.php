@@ -3,7 +3,7 @@
 	namespace Inteve\SimpleComponents;
 
 
-	class Template implements ITemplate
+	class GenericComponent implements Component
 	{
 		/** @var string */
 		private $file;
