@@ -1,7 +1,7 @@
 
 # Inteve\SimpleComponents
 
-[![Tests Status](https://github.com/inteve/simple-components/workflows/Tests/badge.svg)](https://github.com/inteve/simple-components/actions)
+[![Build Status](https://github.com/inteve/simple-components/workflows/Build/badge.svg)](https://github.com/inteve/simple-components/actions)
 
 Simple independent components for Latte templates.
 
