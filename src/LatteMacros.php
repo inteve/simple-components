@@ -23,6 +23,13 @@
 		public static function installToLatte(Latte\Engine $latte, ComponentFactory $components)
 		{
 			$latte->addProvider('inteve_simpleComponents', $components);
+
+			if (method_exists($latte, 'addFunction')) {
+				$latte->addFunction('component', function ($componentName, ...$args) use ($latte, $components) {
+					return new Runtime\LazyRenderer($latte, $components, $componentName, $args);
+				});
+			}
+
 			self::install($latte->getCompiler());
 		}
 

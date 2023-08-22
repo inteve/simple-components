@@ -14,6 +14,10 @@ class MyComponents implements SimpleComponents\ComponentFactory
 			return new SimpleComponents\GenericComponent(__DIR__ . '/templates/MyComponent.latte', $args);
 		}
 
+		if ($componentName === 'my-html-component') {
+			return new SimpleComponents\GenericComponent(__DIR__ . '/templates/MyHtmlComponent.latte', $args);
+		}
+
 		return NULL;
 	}
 }
@@ -25,6 +29,17 @@ test('{component}', function () {
 	\Inteve\SimpleComponents\LatteMacros::installToLatte($latte, $componentFactory);
 
 	Assert::same("Hello, John!\nHello, Wick!\n", $latte->renderToString(__DIR__ . '/templates/page-Homepage.latte'));
+});
+
+
+test('component() function', function () {
+	$componentFactory = new MyComponents;
+	$latte = new Latte\Engine;
+
+	if (method_exists($latte, 'addFunction')) {
+		\Inteve\SimpleComponents\LatteMacros::installToLatte($latte, $componentFactory);
+		Assert::same("Hello, Hello, John Wick &lt;3!\n!\nHello, Hello, <b>John Wick</b>!\n!\n<a title=\"&lt;b&gt;Hello&lt;/b&gt;, &#123;John&lt;3!\n\">test</a>\n", $latte->renderToString(__DIR__ . '/templates/page-ComponentFunction.latte'));
+	}
 });
 
 
