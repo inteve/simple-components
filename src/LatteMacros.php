@@ -26,6 +26,7 @@
 
 			if (method_exists($latte, 'addFunction')) {
 				$latte->addFunction('component', function ($componentName, ...$args) use ($latte, $components) {
+					/** @var array<string, mixed> $args */
 					return new Runtime\LazyRenderer($latte, $components, $componentName, $args);
 				});
 			}
