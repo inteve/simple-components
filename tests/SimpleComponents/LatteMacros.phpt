@@ -43,6 +43,17 @@ test('component() function', function () {
 });
 
 
+test('component() function named arguments', function () {
+	$componentFactory = new MyComponents;
+	$latte = new Latte\Engine;
+
+	if (method_exists($latte, 'addFunction') && PHP_VERSION_ID >= 81000) {
+		\Inteve\SimpleComponents\LatteMacros::installToLatte($latte, $componentFactory);
+		Assert::same("Hello, Hello, John Wick &lt;3!\n!\nHello, Hello, <b>John Wick</b>!\n!\n<a title=\"&lt;b&gt;Hello&lt;/b&gt;, &#123;John&lt;3!\n\">test</a>\n", $latte->renderToString(__DIR__ . '/templates/page-ComponentFunction.named.latte'));
+	}
+});
+
+
 test('Missing component', function () {
 	$componentFactory = new MyComponents;
 	$latte = new Latte\Engine;

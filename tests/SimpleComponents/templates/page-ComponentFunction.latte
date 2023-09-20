@@ -1,7 +1,7 @@
-{component my-component, name => component('my-component',
-	name: 'John Wick <3'
-)}
-{component my-component, name => component('my-component',
-	name: new \Latte\Runtime\Html('<b>John Wick</b>')
-)}
-<a title="{component('my-html-component', name: '{John<3')}">test</a>
+{component my-component, name => component('my-component', [
+	name => 'John Wick <3',
+])}
+{component my-component, name => component('my-component', [
+	name => new \Latte\Runtime\Html('<b>John Wick</b>'),
+])}
+<a title="{component('my-html-component', [name => '{John<3'])}">test</a>
