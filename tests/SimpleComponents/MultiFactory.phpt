@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Inteve\SimpleComponents;
 use Inteve\SimpleComponents\DirectoryFactory;
 use Inteve\SimpleComponents\MultiFactory;
