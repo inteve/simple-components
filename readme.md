@@ -18,7 +18,7 @@ Simple independent components for Latte templates.
 composer require inteve/simple-components
 ```
 
-Inteve\SimpleComponents requires PHP 5.6.0 or later.
+Inteve\SimpleComponents requires PHP 8.0 or later.
 
 
 ## Usage
